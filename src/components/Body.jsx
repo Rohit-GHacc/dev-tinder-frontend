@@ -4,10 +4,10 @@ import NavBar from './NavBar'
 
 const Body = () => {
   return (
-    <>
+    <div className = 'flex flex-col min-h-screen'>
         <NavBar/>
         <Outlet/>
-    </>
+    </div>
   )
 }
 
