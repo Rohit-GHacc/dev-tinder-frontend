@@ -1,20 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addUser } from "../store/userSlice";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../utils/constants";
+
 const Login = () => {
   const [email, setEmail] = useState("rohit@gmail.com");
   const [password, setPassword] = useState("Rohit@123");
+  const dispatch = useDispatch()
+    const navigate = useNavigate()
+
   const handleSignIn = async () => {
     try {
       const data = await axios.post(
-        "http://localhost:7777/login",
+        BASE_URL + "/login",
         { email, password },
         { withCredentials: true }
       );
       console.log(data);
+      dispatch(addUser(data.data))
+      navigate('/')
     } catch (err) {
       console.log(err.response.data || err.message);
     }
   };
+
   return (
     // flex-1 property takes all remaining space available
     <div className="flex flex-1 items-center justify-center ">
