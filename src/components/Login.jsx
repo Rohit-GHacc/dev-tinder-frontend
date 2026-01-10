@@ -20,7 +20,7 @@ const Login = () => {
         { email, password },
         { withCredentials: true }
       );
-      console.log(data);
+      // console.log(data);
       dispatch(addUser(data.data))
       navigate('/')
     } catch (err) {

@@ -14,13 +14,13 @@ const Body = () => {
       const res = await axios.get(BASE_URL + "/profile/view", {
         withCredentials: true,
       });
-      console.log("from body component : ", res.data);
+      // console.log("from body component : ", res.data);
       dispatch(addUser(res.data));
     } catch (err) {
       if (err.status === 401) {
         navigate("/login");
       }
-      console.log(err.message);
+      // console.log(err.message);
     }
   };
   useEffect(() => {
