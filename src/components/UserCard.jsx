@@ -6,6 +6,7 @@ const UserCard = ({user}) => {
       <div className="card bg-base-300 w-96 shadow-sm ">
         <figure>
           <img
+            className = 'max-w-75'
             src={user?.photoURL}
             alt="Shoes"
           />

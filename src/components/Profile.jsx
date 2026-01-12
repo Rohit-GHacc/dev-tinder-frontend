@@ -1,26 +1,39 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import UserCard from "./UserCard";
 const Profile = () => {
-  const user = useSelector((store) => store.user);
-  const [firstName, setFirstName] = useState(user?.firstName);
-  const [lastName, setLastName] = useState(user?.lastName);
-  const [gender, setGender] = useState(user?.gender);
-  const [age, setAge] = useState(user?.age);
-  const [photoURL, setPhotoURL] = useState(user?.photoURL);
-  const [about, setAbout] = useState(user?.about);
-  const [skills, setSkills] = useState(user?.skills);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
+  const [gender, setGender] = useState();
+  const [age, setAge] = useState();
+  const [photoURL, setPhotoURL] = useState();
+  const [about, setAbout] = useState();
+  const [skills, setSkills] = useState();
   const [error, setError] = useState("");
   const [toast, setToast] = useState(false);
   // console.log('in profile' , user)
+
+  const user = useSelector((store) => store.user);
+  useEffect(()=>{
+    if(!user) return;
+    setFirstName(user.firstName || "")
+    setLastName(user.lastName || "")
+    setGender(user.gender || "")
+    setAge(user.age || "")
+    setPhotoURL(user.photoURL || "")
+    setAbout(user?.about || "")
+    setSkills(user.skills || "")
+  },[user])
+
+
   const updateProfile = async () => {
     setError("");
     try {
       const response = await axios.patch(
         BASE_URL + "/profile/edit",
-        { firstName, lastName, gender, age, about, skills, photoURL, about },
+        { firstName, lastName, gender, age, about, skills, photoURL },
         { withCredentials: true }
       );
       setToast(true);
@@ -30,6 +43,7 @@ const Profile = () => {
       setError(err.message);
     }
   };
+  if(!user) return <div>LOADING...</div>;
   return (
     // flex-1 property takes all remaining space available
     <>
@@ -43,7 +57,7 @@ const Profile = () => {
 
       <div className="flex flex-1 items-start justify-center gap-10 p-10">
         {/* Form Card */}
-        <div className="card bg-base-300 text-neutral-content w-[420px] shadow-lg">
+        <div className="card bg-base-300 text-neutral-content w-105 shadow-lg">
           <div className="card-body">
             <h2 className="card-title text-3xl justify-center mb-4">
               Update Profile
@@ -71,7 +85,7 @@ const Profile = () => {
             <div className="flex items-center justify-between gap-4">
               <label className="w-28">Gender</label>
               <select
-                className="select select-bordered w-full"
+                className="select select-bordered w-full cursor-pointer"
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
               >
@@ -113,9 +127,11 @@ const Profile = () => {
         </div>
 
         {/* Live Preview */}
-        <UserCard
+        <div className = '-mt-20'>
+        {user && <UserCard
           user={{ firstName, lastName, gender, age, photoURL, about, skills }}
-        />
+        />}
+        </div>
       </div>
     </>
   );
