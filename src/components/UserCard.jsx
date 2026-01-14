@@ -14,7 +14,7 @@ const UserCard = ({user}) => {
         <div className="card-body">
           <h2 className="card-title">{user?.firstName + ' ' + user?.lastName}</h2>
           <p>
-            {user?.age} - {user?.gender.toUpperCase()}
+            {user?.age} - {user?.gender}
           </p>
           <p>
             {user?.about}
