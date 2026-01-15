@@ -104,7 +104,7 @@ const Profile = () => {
                 <div key={label} className="flex flex-col gap-1">
                   <label className="font-medium">{label}</label>
                   <textarea
-                    className="textarea textarea-bordered w-full min-h-[80px]"
+                    className="textarea textarea-bordered w-full min-h-20"
                     value={value}
                     onChange={(e) => setter(e.target.value)}
                   />
