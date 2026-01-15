@@ -20,56 +20,62 @@ const NavBar = () => {
     }
   };
   return (
-    <>
-      <div className="navbar bg-base-300 shadow-sm">
-        <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-3xl">
-            DevTinder
-          </Link>
-        </div>
-        {user && (
-          <div className="flex items-center gap-4 mx-4">
-            <div> Welcome, {user.firstName} </div>
-            <div className="dropdown dropdown-end">
-              <div
-                tabIndex={0}
-                role="button"
-                className="btn btn-ghost btn-circle avatar"
-              >
-                <div className="w-10 rounded-full">
-                  <img
-                    alt="Tailwind CSS Navbar component"
-                    src={user.photoURL}
-                  />
-                </div>
-              </div>
-              <ul
-                tabIndex="-1"
-                className="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow"
-              >
-                <li>
-                  <Link to="/profile" className="justify-between">
-                    Profile
-                    <span className="badge">New</span>
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/connections" className="justify-between">
-                    Connections
-                  </Link>
-                </li>
-                <li>
-                  <Link to='/requests'>Requests</Link>
-                </li>
-                <li>
-                  <Link onClick={handleLogout}>Logout</Link>
-                </li>
-              </ul>
+  <div className="navbar bg-base-300 shadow-md px-4">
+    
+    {/* Logo */}
+    <div className="flex-1">
+      <Link to="/" className="text-2xl font-bold tracking-wide">
+        DevTinder
+      </Link>
+    </div>
+
+    {user && (
+      <div className="flex items-center gap-6">
+        
+        {/* Greeting */}
+        <span className="hidden sm:block text-sm opacity-80">
+          Hi, {user.firstName}
+        </span>
+
+        {/* Avatar Dropdown */}
+        <div className="dropdown dropdown-end">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost btn-circle avatar"
+          >
+            <div className="w-10 rounded-full ring ring-base-200 ring-offset-base-300 ring-offset-2">
+              <img src={user.photoURL} alt={user.firstName} />
             </div>
           </div>
-        )}
+
+          <ul
+            tabIndex={0}
+            className="menu menu-sm dropdown-content bg-base-300 rounded-xl shadow-lg mt-3 w-48 p-2"
+          >
+            <li>
+              <Link to="/profile">Profile</Link>
+            </li>
+            <li>
+              <Link to="/connections">Connections</Link>
+            </li>
+            <li>
+              <Link to="/requests">Requests</Link>
+            </li>
+            <li>
+              <button
+                onClick={handleLogout}
+                className="text-error text-left"
+              >
+                Logout
+              </button>
+            </li>
+          </ul>
+        </div>
       </div>
-    </>
-  );
+    )}
+  </div>
+);
+
 };
 export default NavBar;

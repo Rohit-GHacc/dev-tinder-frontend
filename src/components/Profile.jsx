@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { BASE_URL } from "../utils/constants";
 import axios from "axios";
 import UserCard from "./UserCard";
+import { addUser } from "../store/userSlice";
 const Profile = () => {
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState();
   const [lastName, setLastName] = useState();
   const [gender, setGender] = useState();
@@ -16,17 +18,16 @@ const Profile = () => {
   // console.log('in profile' , user)
 
   const user = useSelector((store) => store.user);
-  useEffect(()=>{
-    if(!user) return;
-    setFirstName(user.firstName || "")
-    setLastName(user.lastName || "")
-    setGender(user.gender || "")
-    setAge(user.age || "")
-    setPhotoURL(user.photoURL || "")
-    setAbout(user?.about || "")
-    setSkills(user.skills || "")
-  },[user])
-
+  useEffect(() => {
+    if (!user) return;
+    setFirstName(user.firstName || "");
+    setLastName(user.lastName || "");
+    setGender(user.gender || "");
+    setAge(user.age || "");
+    setPhotoURL(user.photoURL || "");
+    setAbout(user?.about || "");
+    setSkills(user.skills || "");
+  }, [user]);
 
   const updateProfile = async () => {
     setError("");
@@ -37,15 +38,16 @@ const Profile = () => {
         { withCredentials: true }
       );
       setToast(true);
+      console.log(response.data);
       setTimeout(() => setToast(false), 3000);
+      dispatch(addUser(response.data));
       // console.log("in profile", response);
     } catch (err) {
       setError(err.message);
     }
   };
-  if(!user) return <div>LOADING...</div>;
+  if (!user) return <div>LOADING...</div>;
   return (
-    // flex-1 property takes all remaining space available
     <>
       {toast && (
         <div className="toast toast-top toast-center z-50">
@@ -55,82 +57,85 @@ const Profile = () => {
         </div>
       )}
 
-      <div className="flex flex-1 items-start justify-center gap-10 p-10">
-        {/* Form Card */}
-        <div className="card bg-base-300 text-neutral-content w-105 shadow-lg">
-          <div className="card-body">
-            <h2 className="card-title text-3xl justify-center mb-4">
-              Update Profile
-            </h2>
+      <div className="flex justify-center px-6 py-10">
+        <div className="flex flex-col lg:flex-row gap-10 w-full max-w-6xl">
+          {/* Form Card */}
+          <div className="card bg-base-300 shadow-xl w-full lg:w-1/2">
+            <div className="card-body">
+              <h2 className="card-title text-3xl justify-center mb-6">
+                Update Profile
+              </h2>
 
-            {[
-              ["First Name", firstName, setFirstName, "text"],
-              ["Last Name", lastName, setLastName, "text"],
-              ["Age", age, setAge, "number"],
-            ].map(([label, value, setter, type]) => (
-              <div
-                key={label}
-                className="flex items-center justify-between gap-4"
-              >
-                <label className="w-28">{label}</label>
-                <input
-                  type={type}
-                  className="input input-bordered w-full"
-                  value={value}
-                  onChange={(e) => setter(e.target.value)}
-                />
+              {[
+                ["First Name", firstName, setFirstName, "text"],
+                ["Last Name", lastName, setLastName, "text"],
+                ["Age", age, setAge, "number"],
+              ].map(([label, value, setter, type]) => (
+                <div key={label} className="flex flex-col gap-1">
+                  <label className="font-medium">{label}</label>
+                  <input
+                    type={type}
+                    className="input input-bordered w-full"
+                    value={value}
+                    onChange={(e) => setter(e.target.value)}
+                  />
+                </div>
+              ))}
+
+              <div className="flex flex-col gap-1">
+                <label className="font-medium">Gender</label>
+                <select
+                  className="select select-bordered w-full"
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="others">Others</option>
+                </select>
               </div>
-            ))}
 
-            <div className="flex items-center justify-between gap-4">
-              <label className="w-28">Gender</label>
-              <select
-                className="select select-bordered w-full cursor-pointer"
-                value={gender}
-                onChange={(e) => setGender(e.target.value)}
-              >
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="others">Others</option>
-              </select>
-            </div>
+              {[
+                ["About", about, setAbout],
+                ["Photo URL", photoURL, setPhotoURL],
+                ["Skills", skills, setSkills],
+              ].map(([label, value, setter]) => (
+                <div key={label} className="flex flex-col gap-1">
+                  <label className="font-medium">{label}</label>
+                  <textarea
+                    className="textarea textarea-bordered w-full min-h-[80px]"
+                    value={value}
+                    onChange={(e) => setter(e.target.value)}
+                  />
+                </div>
+              ))}
 
-            {[
-              ["About", about, setAbout],
-              ["Photo URL", photoURL, setPhotoURL],
-              ["Skills", skills, setSkills],
-            ].map(([label, value, setter]) => (
-              <div
-                key={label}
-                className="flex items-start justify-between gap-4"
-              >
-                <label className="w-28 pt-2">{label}</label>
-                <textarea
-                  className="textarea textarea-bordered w-full"
-                  value={value}
-                  onChange={(e) => setter(e.target.value)}
-                />
-              </div>
-            ))}
+              {error && <p className="text-error text-sm">{error}</p>}
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
-
-            <div className="card-actions justify-center mt-4">
               <button
-                className="btn btn-primary w-full"
+                className="btn btn-sm btn-secondary"
                 onClick={updateProfile}
               >
-                Update Profile
+                Save Changes
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Live Preview */}
-        <div className = '-mt-20'>
-        {user && <UserCard
-          user={{ firstName, lastName, gender, age, photoURL, about, skills }}
-        />}
+          {/* Live Preview */}
+          <div className="flex justify-center lg:items-start w-full lg:w-1/2">
+            <UserCard
+              user={{
+                firstName,
+                lastName,
+                gender,
+                age,
+                photoURL,
+                about,
+                skills,
+              }}
+            />
+          </div>
         </div>
       </div>
     </>

@@ -12,6 +12,8 @@ import Requests from "./components/Requests";
 function App() {
   return (
     <>
+{/* themes: light --default, dark --prefersdark, cupcake, bumblebee, emerald, nord, cyberpunk, lemonade, caramellatte, silk, valentine, aqua, coffee, corporate; */}
+    <div data-theme="abyss" >
       <Provider store={appStore}>
         <BrowserRouter>
           <Routes>
@@ -25,6 +27,7 @@ function App() {
           </Routes>
         </BrowserRouter>
       </Provider>
+      </div>
     </>
   );
 }

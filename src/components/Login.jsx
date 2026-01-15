@@ -39,91 +39,86 @@ const Login = () => {
   };
 
   return (
-    // flex-1 property takes all remaining space available
-    <div className="flex flex-1 items-center justify-center ">
-      <div className="card bg-base-300 text-neutral-content w-96 pb-4">
-        <div className="card-body items-center text-center">
-          <h2 className="card-title text-4xl m-4">
-            {isLoginForm ? "Login" : "Sign Up"}
-          </h2>
-          <div className="flex flex-col justify-between">
-            {!isLoginForm && (
-              <>
-                <div className="flex gap-4 justify-between m-2">
-                  <label htmlFor="firstName" className="p-2">
-                    {" "}
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    className="border border-white p-2"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
-                </div>
-                <div className="flex gap-4 justify-between  m-2">
-                  <label htmlFor="lastName" className="p-2">
-                    {" "}
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    className="border border-white p-2"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-              </>
-            )}
-            <div className="flex gap-4 justify-between m-2">
-              <label htmlFor="email" className="p-2">
-                {" "}
-                Email ID
-              </label>
+  <div className="flex flex-1 items-center justify-center px-4">
+    <div className="card bg-base-300 w-full max-w-sm shadow-xl">
+      <div className="card-body">
+        <h2 className="text-3xl font-bold text-center mb-6">
+          {isLoginForm ? "Welcome Back" : "Create Account"}
+        </h2>
+
+        {!isLoginForm && (
+          <div className="flex flex-col gap-4">
+            <div>
+              <label className="text-sm">First Name</label>
               <input
-                type="email"
-                id="email"
-                className="border border-white p-2"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                type="text"
+                className="input input-bordered w-full"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
-            <div className="flex gap-4 justify-between m-2">
-              <label htmlFor="password" className="p-2">
-                {" "}
-                Password{" "}
-              </label>
+            <div>
+              <label className="text-sm">Last Name</label>
               <input
-                type="password"
-                id="password"
-                className="border border-white p-2"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="text"
+                className="input input-bordered w-full"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
               />
             </div>
           </div>
-          <p className="text-red-500"> {error}</p>
-          <div className="card-actions justify-end m-2">
-            <button className="btn btn-primary" onClick={handleSignIn}>
-              {isLoginForm ? "Sign in" : "Sign up"}
-            </button>
+        )}
+
+        <div className="flex flex-col gap-4 mt-2">
+          <div>
+            <label className="text-sm">Email</label>
+            <input
+              type="email"
+              className="input input-bordered w-full"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </div>
-          <p
-            className="cursor-pointer "
-            onClick={() => setIsLoginForm((prev) => !prev)}
-          >
-            {" "}
-            {isLoginForm
-              ? "New User? Sign up"
-              : "Already registered? Sign In"}{" "}
-            here
-          </p>
+
+          <div>
+            <label className="text-sm">Password</label>
+            <input
+              type="password"
+              className="input input-bordered w-full"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
         </div>
+
+        {error && <p className="text-error text-sm mt-2">{error}</p>}
+
+        <button
+          className="btn btn-secondary btn-sm mt-6 w-full"
+          onClick={handleSignIn}
+        >
+          {isLoginForm ? "Sign In" : "Sign Up"}
+        </button>
+
+        <p
+          className="text-center text-sm mt-4 cursor-pointer opacity-80 hover:opacity-100"
+          onClick={() => {
+            setEmail("");
+            setPassword("");
+            setFirstName("");
+            setLastName("");
+            setIsLoginForm((prev) => !prev);
+          }}
+        >
+          {isLoginForm
+            ? "New here? Create an account"
+            : "Already have an account? Sign in"}
+        </p>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Login;

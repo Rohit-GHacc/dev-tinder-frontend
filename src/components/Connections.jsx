@@ -14,36 +14,51 @@ const Connections = () => {
   useEffect(() => {
     getConnections();
   }, []);
-  if(!connections || connections.length === 0) return ( <div className = 'text-center m-5 font-bold text-3xl'> No connections found ! </div> )
+  if (!connections || connections.length === 0)
   return (
-    <>
-      <div className="flex flex-col items-center">
-        <h1 className="font-bold text-3xl m-4"> Connections</h1>
-        {connections.map((c) => {
-          return (
-            <div
-              key={c._id}
-              className="flex bg-base-300 w-1/2 m-2 py-4 px-5 rounded-xl"
-            >
-              <div className="w-20 m-2 rounded-full bg-white overflow-hidden">
-                <img src={c.photoURL} alt={c.firstName} />
-              </div>
-              <div className="flex flex-col my-2 mx-3">
-                <span className="font-bold text-xl">
-                  {c.firstName + " " + c.lastName}
-                </span>
-                {c.age && c.gender && (
-                  <span>{c.age + " - " + c.gender.toUpperCase()}</span>
-                )}
-                {c.about && <span>{c.about}</span>}
-              </div>
-            </div>
-          );
-        })}
-        {/* </div> */}
-      </div>
-    </>
+    <div className = 'text-center m-5 font-bold text-3xl'> No connections found ! </div> 
   );
+
+return (
+  <div className="flex flex-col items-center px-4">
+    <h1 className="font-bold text-3xl my-6">Connections</h1>
+
+    {connections.map((c) => (
+      <div
+        key={c._id}
+        className="flex items-center justify-between bg-base-300 w-full max-w-2xl my-2 p-4 rounded-2xl shadow-sm"
+      >
+        {/* Left */}
+        <div className="flex items-center gap-4">
+          <div className="w-16 h-16 rounded-full bg-white overflow-hidden shrink-0">
+            <img
+              src={c.photoURL}
+              alt={c.firstName}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <span className="font-bold text-lg">
+              {c.firstName} {c.lastName}
+            </span>
+            {c.age && c.gender && (
+              <span className="text-sm opacity-70">
+                {c.age} • {c.gender.toUpperCase()}
+              </span>
+            )}
+            {c.about && (
+              <span className="text-sm opacity-80 line-clamp-2">
+                {c.about}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+);
+
 };
 
 export default Connections;

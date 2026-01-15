@@ -15,31 +15,56 @@ const UserCard = ({user}) => {
     }
   }
   return (
-    <div className="flex justify-center m-20">
-      <div className="card bg-base-300 w-96 shadow-sm ">
-        <figure>
-          <img
-            className = 'max-w-75'
-            src={user?.photoURL}
-            alt="Shoes"
-          />
-        </figure>
-        <div className="card-body">
-          <h2 className="card-title">{user?.firstName + ' ' + user?.lastName}</h2>
-          <p>
-            {user?.age} - {user?.gender}
+  <div className="flex justify-center py-10">
+    <div className="card bg-base-300 w-full max-w-sm shadow-md rounded-2xl overflow-hidden">
+      
+      {/* Image */}
+      <figure className="h-64 bg-base-200">
+        <img
+          src={user?.photoURL}
+          alt={user?.firstName}
+          className="w-full h-full object-cover"
+        />
+      </figure>
+
+      {/* Body */}
+      <div className="card-body">
+        <h2 className="card-title text-xl">
+          {user?.firstName} {user?.lastName}
+        </h2>
+
+        {user?.age && user?.gender && (
+          <p className="text-sm opacity-70">
+            {user.age} • {user.gender}
           </p>
-          <p>
-            {user?.about}
+        )}
+
+        {user?.about && (
+          <p className="text-sm opacity-80 line-clamp-3">
+            {user.about}
           </p>
-          <div className="card-actions justify-around my-4">
-            <button className="btn btn-primary" onClick={()=>handleStatus("ignored",user?._id)}> Ignore</button>
-            <button className="btn btn-secondary" onClick = {()=>handleStatus("interested", user?._id)}> Interested </button>
-          </div>
+        )}
+
+        {/* Actions */}
+        <div className="flex justify-between mt-4">
+          <button
+            className="btn btn-sm btn-outline btn-error"
+            onClick={() => handleStatus("ignored", user?._id)}
+          >
+            Ignore
+          </button>
+          <button
+            className="btn btn-sm btn-secondary"
+            onClick={() => handleStatus("interested", user?._id)}
+          >
+            Interested
+          </button>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default UserCard;
