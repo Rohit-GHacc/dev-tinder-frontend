@@ -14,6 +14,7 @@ const Connections = () => {
   useEffect(() => {
     getConnections();
   }, []);
+  if(!connections || connections.length === 0) return ( <div className = 'text-center m-5 font-bold text-3xl'> No connections found ! </div> )
   return (
     <>
       <div className="flex flex-col items-center">
