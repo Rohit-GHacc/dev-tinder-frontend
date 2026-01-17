@@ -24,8 +24,8 @@ const NavBar = () => {
     
     {/* Logo */}
     <div className="flex-1">
-      <Link to="/" className="text-2xl font-bold tracking-wide">
-        DevTinder
+      <Link to="/" className="text-4xl font-bold tracking-wide">
+        ⋆❈    𝒟𝑒𝓋 𝒯𝒾𝓃𝒹𝑒𝓇    ❈⋆
       </Link>
     </div>
 
@@ -33,7 +33,7 @@ const NavBar = () => {
       <div className="flex items-center gap-6">
         
         {/* Greeting */}
-        <span className="hidden sm:block text-sm opacity-80">
+        <span className="hidden sm:block text-xl opacity-80">
           Hi, {user.firstName}
         </span>
 
